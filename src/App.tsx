@@ -1,4 +1,5 @@
 import { createGlobalStyle } from "styled-components";
+import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 
 const GlobalStyle = createGlobalStyle`
 @import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300;400&family=Viga&display=swap');
@@ -64,8 +65,25 @@ body{
 `;
 
 function App() {
+  const onDragEnd = () => {};
   return (
     <>
+      <DragDropContext onDragEnd={onDragEnd}>
+        <div>
+          <Droppable droppableId="one">
+            {() => (
+              <ul>
+                <Draggable draggableId="first" index={0}>
+                  {() => <li>One</li>}
+                </Draggable>
+                <Draggable draggableId="second" index={1}>
+                  {() => <li>Two</li>}
+                </Draggable>
+              </ul>
+            )}
+          </Droppable>
+        </div>
+      </DragDropContext>
       <GlobalStyle />
     </>
   );
