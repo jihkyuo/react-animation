@@ -6,7 +6,7 @@ import Board from "./components/Board";
 
 const Wrapper = styled.div`
   display: flex;
-  max-width: 680px;
+  max-width: 1000px;
   width: 100%;
   margin: 0 auto;
   justify-content: center;
@@ -23,14 +23,21 @@ const Boards = styled.div`
 
 function App() {
   const [toDos, setToDos] = useRecoilState(toDoState);
-  const onDragEnd = ({ draggableId, destination, source }: DropResult) => {
-    if (!destination) return;
-    // setToDos((oldToDos) => {
-    //   const toDosCopy = [...oldToDos];
-    //   toDosCopy.splice(source.index, 1);
-    //   toDosCopy.splice(destination?.index, 0, draggableId);
-    //   return toDosCopy;
-    // });
+  const onDragEnd = (info: DropResult) => {
+    console.log(info);
+    const { destination, draggableId, source } = info;
+    if (destination?.droppableId === source.droppableId) {
+      // 같은 보드에서 움직인 것
+      setToDos((allBoards) => {
+        const boardCopy = [...allBoards[source.droppableId]];
+        boardCopy.splice(source.index, 1);
+        boardCopy.splice(destination?.index, 0, draggableId);
+        return {
+          ...allBoards,
+          [source.droppableId]: boardCopy,
+        };
+      });
+    }
   };
   return (
     <>

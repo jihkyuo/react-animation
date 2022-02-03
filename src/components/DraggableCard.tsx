@@ -15,7 +15,6 @@ interface IDraggableCardProps {
 }
 
 function DraggableCard({ toDo, index }: IDraggableCardProps) {
-  console.log(toDo, "렌더링 된다");
   return (
     <Draggable key={toDo} draggableId={toDo} index={index}>
       {(magic) => (
