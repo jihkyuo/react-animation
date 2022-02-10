@@ -1,5 +1,6 @@
 import styled from "styled-components";
-import { motion } from "framer-motion";
+import { motion, useMotionValue, useTransform } from "framer-motion";
+import { useEffect } from "react";
 
 const Wrapper = styled.div`
   height: 100vh;
@@ -18,25 +19,13 @@ const Box = styled(motion.div)`
   grid-template-columns: repeat(2, 1fr);
 `;
 
-const boxVariants = {
-  호버얌: { scale: 1.5, rotateZ: 90 },
-  탭이얌: { scale: 1, borderRadius: "100px" },
-  드래깅: {
-    backgroundColor: "rgb(85, 239, 196)",
-    transition: { duration: 10 },
-  },
-};
-
 function App() {
+  const x = useMotionValue(0);
+  const scale = useTransform(x, [-800, 0, 800], [2, 1, 0.1]);
+
   return (
     <Wrapper>
-      <Box
-        drag
-        variants={boxVariants}
-        whileHover="호버얌"
-        whileTap="탭이얌"
-        whileDrag="드래깅"
-      />
+      <Box style={{ x, scale }} drag="x" dragSnapToOrigin />
     </Wrapper>
   );
 }
